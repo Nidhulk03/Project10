@@ -4,7 +4,7 @@ Project Title: Market Basket Analysis
 
 Problem Statement: Unveiling Customer Behaviour through Association Analysis: Utilize market basket analysis on the provided dataset to uncover hidden patterns and associations between products, aiming to understand customer purchasing behaviour and identify potential cross-selling opportunities for the retail business.
 
-Dataset Link: https://www.kaggle.com/datasets/aslanahmedov/market-basket-analysis
+l
 
 Project Steps
 
