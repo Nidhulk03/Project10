@@ -1,0 +1,136 @@
+                           Market basket insight
+import pandas as pd
+import numpy as np
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+%matplotlib inline
+
+import warnings
+warnings.filterwarnings('ignore')
+
+pd.set_option('display.max_columns', None)
+ 
+data=pd.read_excel('D:\VS Code\Arun\Assignment-1_Data.xlsx')
+
+data.head() 
+
+data.tail()
+
+data.info()
+
+data.shape
+
+data.describe()
+
+data[data['Quantity']<0]
+
+from wordcloud import WordCloud, STOPWORDS
+stopwords = STOPWORDS
+worldcloud= WordCloud(background_color='Black',stopwords=stopwords, height=1000, width =2000)
+
+temp=data[data['Quantity']<0]
+body =temp['Itemname'].to_string(index=False)
+### Generate word cloud
+worldcloud.generate(body)
+## Visualize
+plt.figure(figsize=(22,10))
+plt.imshow(worldcloud)
+plt.axis("off")
+
+  temp=data[data['Price']<=0]
+body =temp['Itemname'].dropna().to_string(index=False)
+
+worldcloud.generate(body)
+
+plt.figure(figsize=(22,10))
+plt.imshow(worldcloud)
+plt.axis("off")
+ 
+data.duplicated().sum()
+
+data.drop_duplicates(inplace=True)
+
+data['Itemname'] = data['Itemname'].str.strip()
+
+data.isnull().sum()
+
+data.isnull().mean()*100
+
+ data['Date']
+import datetime as datetime
+from datetime import datetime
+
+
+data['date'] = data['Date'].dt.date
+data['hour'] = data['Date'].dt.hour
+
+
+data['date']= pd.to_datetime(data['date'], infer_datetime_format= True)
+data.drop('Date',inplace=True,axis=1)
+
+data.head(3)
+
+data[data['Quantity']<=0]
+
+data[data['Price']<=0]
+
+ 
+data=data[data['Quantity']>0]
+
+
+data=data[data['Price']>0]
+data.shape
+
+plt.figure(figsize=(22,7))
+plt.subplot(1,2,1)
+data.Price.plot()
+plt.title("Price")
+plt.subplot(1,2,2)
+data.Quantity.plot()
+plt.title("Quantity")
+
+data.sort_values(by='Quantity',ascending=False)
+
+data.sort_values(by='Price',ascending=False)
+
+data=data[data['Price']<5000]
+data=data[data['Quantity']<5000]
+
+
+top_10_items = data['Itemname'].value_counts().nlargest(10).index
+
+
+df_top_10 = data[data['Itemname'].isin(top_10_items)]
+
+
+ax=sns.countplot(data=df_top_10, x='Itemname')
+plt.xticks(rotation=90)
+
+data.Country.value_counts().head(10)
+
+from mlxtend.frequent_patterns import apriori
+from mlxtend.frequent_patterns import association_rules
+
+mybasket= (data[data['Country'] =="Germany"]
+          .groupby(['BillNo', 'Itemname'])['Quantity']
+          .sum().unstack().reset_index().fillna(0)
+          .set_index('BillNo'))
+
+mybasket
+ a=data[data['Country']=='Germany']
+a['BillNo'].nunique()
+def my_encode_units(x):
+    if x <= 0:
+        return 0
+    if x >= 1:
+        return 1
+
+my_basket = mybasket.applymap(my_encode_units)
+my_basket.drop('POSTAGE', inplace=True, axis=1) #Remove "postage" as an item
+### Display sample of set
+my_basket
+data[data['BillNo']==536527]
+
+
